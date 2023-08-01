@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="/AirPort/css/reset.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css"> -->
     <link rel="stylesheet" href="/AirPort/css/index.css">
     <style>
         #SearchForm{padding: 5px;}
@@ -93,12 +92,14 @@
         </div>
         <button id="MoreBtn" class="btn btn-outline-info w-100 justify-content-center">더보기</button>
     </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d6b6897cb5631e4b7bca1e895a4cf29e"></script>
-        <script src="/AirPort/js/AirMap.js"></script>
-        <script src="/AirPort/js/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/i18n/defaults-ko_KR.min.js"></script>
+    <script src="/AirPort/js/index.js"></script>
+    <script src="/AirPort/js/AirMap.js"></script>
     <script>
         // 윈도우 크기에따른 버튼 css설정
         // 기본값 설정
@@ -121,12 +122,13 @@
               SearchBtn.classList.add('btn-outline-info')
               MoreBtn.classList.remove('btn-info')
               MoreBtn.classList.add('btn-outline-info')
-              
+              AirLineMap.panTo(AirmapOption.center);
             } else {
               SearchBtn.classList.remove('btn-outline-info')
               SearchBtn.classList.add('btn-info')
               MoreBtn.classList.remove('btn-outline-info')
               MoreBtn.classList.add('btn-info')
+              AirLineMap.panTo(AirmapOption.center);
             }
         })
     </script>
