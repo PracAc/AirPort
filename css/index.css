@@ -31,11 +31,10 @@ label{background-color: rgb(146, 231, 231);}
 #AirTable thead tr th{
     background-color: rgb(146, 231, 231);
     color: #008686;
-    overflow: hidden;
+    white-space: nowrap;
 }
-#AirTable thead tr td{
-    overflow: hidden;
-    min-width: 120px;
+#AirTable tbody tr td{
+    white-space: nowrap;
 }
 .AirMarker{
  font-weight: bold;
