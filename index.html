@@ -17,121 +17,121 @@
 
 <body>
     <!-- 선택된날짜 공항목록 따로만들어서 fomr아래 table위에 만들 스크립트 다시 제작 -->
-    <div class="container-fluid text-center">
-        <div id="AirLineMap" style="width:100%;height:450px;"></div>
-        <form class="SearchForm mb-2">
-            <div class="form-group container">
-                <div class="row row-cols-md-auto column-gap-0">
-                    <div class="col-12 col-md-6">
-                        <div class="input-group mb-1">
-                            <label for="AirCompanyN" class="input-group-text
-                                bg-info-subtle
-                                border
-                                border-primary">
-                                항공사</label>
-                            <select name="AirCompanyN" id="AirCompanyN" class="form-select border border-primary"></select>
-                        </div>
+    <div class="container-fluid row text-center">
+        <div class="accordion col-12 col-md-6 sticky-md-top mb-3 vh-100" id="MapAccordion">
+            <div class="accordion-item">
+                <button class="accordion-button btn border border-primary" type="button" data-bs-toggle="collapse" data-bs-target="#MapWrap" aria-expanded="true" aria-controls="MapWrap">
+                  지도 보기
+                </button>
+              <div id="MapWrap" class="accordion-collapse collapse show" data-bs-parent="#MapAccordion">
+                    <div id="AirMap" class="vh-100"></div>
+              </div>
+            </div>
+        </div>
+        <div id="AirModal" class="modal fade modal-xl" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <div class="modal-title fs-4"></div>
+                        <button type="button" class="btn-close btn-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="col-12 col-md-6">
-                        <div class="input-group mb-1">
-                            <label for="sDay" class="input-group-text 
-                                bg-info-subtle
-                                border
-                                border-primary">
-                                날짜</label>
-                            <input id="sDay" type="date" class="form-control border border-primary">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 col-md-6">
-                        <div class="input-group mb-1">
-                            <label for="SairportN" class="input-group-text
-                                       bg-info-subtle
-                                       border
-                                       border-primary">
-                                출발공항</label>
-                            <select name="SairportN" id="SairportN" class="form-select border border-primary"></select>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <div class="input-group mb-1">
-                            <label for="EairportN" class="input-group-text
-                                bg-info-subtle
-                                border
-                                border-primary">
-                                도착공항</label>
-                            <select name="EairportN" id="EairportN" class="form-select border border-primary"></select>
-                        </div>
+                    <div class="modal-body container">
+                        <div class="modal-content"></div>
                     </div>
                 </div>
             </div>
-            <!-- <input id="eDay" type="date"> -->
-            <button id="search--airplan" class="col-12 col-md-2 mx-auto btn btn-outline-info" type="button">검색</button>
-        </form>
-        <!-- lg(992px)아래부터 글자가 깨짐 수정필요 -->
-        <div class="table-responsive">
-            <table id="AirTable" class="table table-info table-striped table-bordered border-primary mb-0">
-                <thead>
-                    <tr>
-                        <th>날짜</th>
-                        <th>출발공항</th>
-                        <th>도착공항</th>
-                        <th>항공사</th>
-                        <th>Gate번호</th>
-                        <th>항공기번호</th>
-                        <th>출발예정시간</th>
-                        <th>지연시간</th>
-                        <th>도착예정시간</th>
-                        <th>경로보기</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
         </div>
-        <button id="MoreBtn" class="btn btn-outline-info w-100 justify-content-center">더보기</button>
+        <div class="col-12 col-md-6">
+            <form class="SearchForm mb-5">
+                <div class="form-group container">
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <div class="input-group mb-1">
+                                <label for="AirCompanyN" class="input-group-text
+                                        bg-info-subtle
+                                        border
+                                        border-primary">
+                                    항공사</label>
+                                <select name="AirCompanyN" id="AirCompanyN"
+                                    class="form-select border border-primary"></select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="input-group mb-1">
+                                <label for="sDay" class="input-group-text
+                                        bg-info-subtle
+                                        border
+                                        border-primary">
+                                    날짜</label>
+                                <input id="sDay" type="date" class="form-control border border-primary">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <div class="input-group mb-1">
+                                <label for="SairportN" class="input-group-text
+                                               bg-info-subtle
+                                               border
+                                               border-primary">
+                                    출발공항</label>
+                                <select name="SairportN" id="SairportN"
+                                    class="form-select border border-primary"></select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="input-group mb-1">
+                                <label for="EairportN" class="input-group-text
+                                        bg-info-subtle
+                                        border
+                                        border-primary">
+                                    도착공항</label>
+                                <select name="EairportN" id="EairportN"
+                                    class="form-select border border-primary"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="search--airplan" class="col-12 col-md-2 mx-auto btn btn-outline-info"
+                        type="button">검색</button>
+                </div>
+                <!-- <input id="eDay" type="date"> -->
+            </form>
+            <div class="table-responsive">
+                <div class="spinner-border m-5 text-center LoadingEl" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="LoadingTxt">로딩중...</div>
+                <div class="NoFound" style="display: none;">서버와 연결이 원할하지 않거나, 정보가 존재하지않습니다.<br>만약 공항,항공사정보가 없을시 새로고침을 해주세요.</div>
+                <table id="AirTable" class="table table-info table-striped table-bordered border-primary mb-0">
+                    <thead>
+                        <tr>
+                            <th>날짜</th>
+                            <th>출발공항</th>
+                            <th>도착공항</th>
+                            <th>항공사</th>
+                            <th>출발예정시간</th>
+                            <th>도착예정시간</th>
+                            <th>경로보기</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <button id="MoreBtn" class="btn btn-outline-info w-100 justify-content-center">더보기</button>
+            <button id="LoadingBtn" class="btn btn-outline-info w-100 gap-3 align-items-center justify-content-center" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                <span role="status">Loading...</span>
+            </button>
+        </div>
     </div>
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d6b6897cb5631e4b7bca1e895a4cf29e"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/i18n/defaults-ko_KR.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
     <script src="/AirPort/js/index.js"></script>
     <script src="/AirPort/js/AirMap.js"></script>
-    <script>
-        // 윈도우 크기에따른 버튼 css설정
-        // 기본값 설정
-        if (window.matchMedia("(min-width: 768px)").matches) {
-              /* 뷰포트 너비가 768 픽셀 이상 */
-              SearchBtn.classList.remove('btn-info')
-              SearchBtn.classList.add('btn-outline-info')
-              MoreBtn.classList.remove('btn-info')
-              MoreBtn.classList.add('btn-outline-info')
-              /* 뷰포트 너비가 768 픽셀 미만 */
-            } else {
-              SearchBtn.classList.remove('btn-outline-info')
-              SearchBtn.classList.add('btn-info')
-              MoreBtn.classList.remove('btn-outline-info')
-              MoreBtn.classList.add('btn-info')
-            }
-        window.addEventListener('resize',function(){
-            if (window.matchMedia("(min-width: 768px)").matches) {
-              SearchBtn.classList.remove('btn-info')
-              SearchBtn.classList.add('btn-outline-info')
-              MoreBtn.classList.remove('btn-info')
-              MoreBtn.classList.add('btn-outline-info')
-              AirLineMap.panTo(AirmapOption.center);
-            } else {
-              SearchBtn.classList.remove('btn-outline-info')
-              SearchBtn.classList.add('btn-info')
-              MoreBtn.classList.remove('btn-outline-info')
-              MoreBtn.classList.add('btn-info')
-              AirLineMap.panTo(AirmapOption.center);
-            }
-        })
-    </script>
 </body>
-
 </html>

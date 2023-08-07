@@ -1,19 +1,21 @@
-const AirmapContainer = document.querySelector('#AirLineMap') // 지도를 표시할 div 
-const AirOption = {
+const AirmapContainer = document.querySelector('#AirMap') // 지도를 표시할 div 
+const AirmapOption = {
         center: new kakao.maps.LatLng(36.34, 127.77), // 지도의 중심좌표
         level: 13 // 지도의 초기 확대 레벨
     };
 
 // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-let AirLineMap = new kakao.maps.Map(AirmapContainer, AirOption);
+let AirMap = new kakao.maps.Map(AirmapContainer, AirmapOption);
 
 
 // 마커 제거를위한 초기값 설정
-let MakrerCts = [];
+let DotCounts = [];
+let APDotCounts = [];
 
 // 지도 좌표사이선 초기값 설정
-let MapLine = new kakao.maps.Polyline({});
-let distanceOverlay = new kakao.maps.CustomOverlay({})
+let CheckLine = new kakao.maps.Polyline();
+let distanceOverlay = new kakao.maps.CustomOverlay()
+let Dots = new kakao.maps.CustomOverlay()
 
 // 출도착 공항 맞는 공항좌표 조회 함수
 const AirPortMark = async function (DeAirP, ArAirP) {
@@ -35,7 +37,7 @@ const AirPortMark = async function (DeAirP, ArAirP) {
 
 
 // 마커옵션 설정 함수( 좌표 설정 )
-const SetMarkerOP = async function (GetDirection) {
+const SetDotsOP = async function (GetDirection) {
     let AirPortPositions = [
         {
             title: `${GetDirection[0]}`,
@@ -46,119 +48,136 @@ const SetMarkerOP = async function (GetDirection) {
             latlng: new kakao.maps.LatLng(GetDirection[3].x, GetDirection[3].y)
         }
     ];
-    let PortMarker = '';
     for (Position of AirPortPositions) {
-        PortMarker = new kakao.maps.Marker({
-            map: AirLineMap, // 마커를 표시할 지도
-            position: Position.latlng, // 마커를 표시할 위치
-            title: `${Position.title}공항` // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+        Dots = new kakao.maps.CustomOverlay({
+            content: '<span class="material-symbols-outlined Mark">fiber_manual_record</span>',
+            position: Position.latlng,
+            title: `${Position.title}공항`,
+            zIndex: 3
         });
-        MakrerCts.push(PortMarker);
+        Dots.setMap(AirMap);
+        DotCounts.push(Dots)
     }
-    return AirPortPositions;
 };
 // 마커 제거 함수
-function DelMarkers(AirLineMap) {
+function DelMarkers(AirMap) {
     // MakrerCt.setMap(null);
-    for (let MakrerCt of MakrerCts) {
-        MakrerCt.setMap(AirLineMap);
+    for (let DotsCt of DotCounts) {
+        DotsCt.setMap(AirMap);
     }
 }
 
-async function panTo(GetDirection) {
-    // 값이 문자열이라 소수점parsing필요 
+async function PanTo(GetDirection) {
+    // 값이 문자열이라 소수점parse필요 
     let GetX = ((parseFloat(GetDirection[1].x) + parseFloat(GetDirection[3].x))/2);
-    let GetY = ((parseFloat(GetDirection[1].y) + parseFloat(GetDirection[3].y))/2);
-    // 이동할 위도 경도 위치를 생성합니다 
+    let GetY = ((parseFloat(GetDirection[1].y) + parseFloat(GetDirection[3].y))/2); 
+
     let moveLatLon = new kakao.maps.LatLng(GetX, GetY);
-    // 지도 중심을 부드럽게 이동시킵니다
-    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
-    AirLineMap.panTo(moveLatLon);
+    AirMap.panTo(moveLatLon);
+}
+
+// 선택한경로 blink효과를 주기위한 함수 2개
+let EXColor1 = function(){
+    setTimeout(function() {
+        CheckLine.setOptions({strokeColor : '#ffffff'})
+        EXColor2()
+    }, 500);
+}
+let EXColor2 = function(){
+    setTimeout(function() {
+        CheckLine.setOptions({strokeColor : '#000000'})
+        EXColor1()
+    }, 500);
 }
 
 const MakeLine = async function(GetDirection){
-    // let ArrDiX,ArrDiY;
-    // ArrDiX = (parseFloat(GetDirection[1].x) + parseFloat(GetDirection[3].x)) / 10
-    // ArrDiY = (parseFloat(GetDirection[1].y) + parseFloat(GetDirection[3].y)) / 10
-    // console.log(GetDirection[1].x,GetDirection[1].y,GetDirection[3].x,GetDirection[3].y)
-    // MapLine = new kakao.maps.Polyline({
-    //     map: AirLineMap,
-    //     endArrow : true,
-    //     path: [
-    //         new kakao.maps.LatLng(GetDirection[1].x,GetDirection[1].y),
-    //         new kakao.maps.LatLng(`${ArrDiX}`,`${ArrDiY}`),],
-    //     strokeWeight: 3,
-    //     strokeColor: '#FF00FF',
-    //     strokeOpacity: 0.7,
-    //     strokeStyle: 'solid'
-    // });
-    MapLine = new kakao.maps.Polyline({
-        map: AirLineMap,
-        endArrow : true,
+    CheckLine = new kakao.maps.Polyline({
+        map: AirMap,
         path: [
             new kakao.maps.LatLng(GetDirection[1].x, GetDirection[1].y),
             new kakao.maps.LatLng(GetDirection[3].x, GetDirection[3].y),],
             strokeWeight: 3,
-            strokeColor: '#FF00FF',
-            strokeOpacity: 0.7,
-            strokeStyle: 'solid'
+            strokeColor: '#000000',
+            strokeOpacity: 0.8,
+            strokeStyle: 'solid',
+            zIndex : 5
         });
-        // 카카오맵 Polyline 옵션설정
-        // polyline.setOptions({
-        //     strokeWeight: 2,
-        //     strokeColor: '#FF00FF',
-        //     strokeOpacity: 0.8,
-        //     strokeStyle: 'dashed'
-        // }); 
-    MapLine.setMap(AirLineMap)
+    CheckLine.setMap(AirMap)
     
-    let distance = Math.round(MapLine.getLength())
-    console.log(distance)
-    if (distance > 1000) {
-        let StrDistances = [...distance.toString()]
-        let index = 0
-        let Kmeter = ''
-        for(StrDistance of StrDistances){
-            if(index === 2){
-                Kmeter += `${StrDistance}.`
-            } else {
-                Kmeter += `${StrDistance}`
-            }
-            index ++
-        }
-        // 클릭한 지점까지의 그려진 선의 총 거리를 표시할 커스텀 오버레이를 생성합니다
-        distanceOverlay = new kakao.maps.CustomOverlay({
-            content: `<div class="lineBoard">거리 <span>${Kmeter}</span>km</div>`,
-            position: new kakao.maps.LatLng(GetDirection[3].x, GetDirection[3].y),
-            xAnchor: 0,
-            yAnchor: 0,
-            zIndex: 2
-        });
-        
-        // 지도에 표시합니다
-        distanceOverlay.setMap(AirLineMap);
-    }
+    // 라인생성후 timeout으로 인한 깜빡임표시
+    EXColor1()
 }
-// 이벤트에 들어갈 함수
+
+// 보기버튼에 있는 클릭이벤트에 들어갈 함수
 const MapEvents = async function () {
-    // 값 초기화
-    DelMarkers();
-    MakrerCts = [];
-    MapLine.setMap(null)
-    distanceOverlay.setMap(null)
-
     // 추후시간표시를 위한 객체 콜링
-    let GetArTime = this.parentNode.querySelector('.ArrTime').textContent
-    let GetDeTime = this.parentNode.querySelector('.DepTime').textContent
-    let CompareDay = new Date().getFullYear()
-
-    console.log(CompareDay)
-    
     let DeAirport = document.querySelector('#SairportN').options[DeAirportBox.selectedIndex].textContent;
     let ArAirport = document.querySelector('#EairportN').options[ArAirportBox.selectedIndex].textContent;
     let GetDirection = await AirPortMark(DeAirport, ArAirport);
-    let SetMarker = await SetMarkerOP(GetDirection);
-    let MoveCenter = panTo(GetDirection);
-    MakeLine(GetDirection)
+    PanTo(GetDirection);
     return;
 };
+
+
+// 처음로딩시 뿌려줄 공항 연결선
+const SetLine = async function() {
+    let Port = await fetch('/js/airport.json');
+    let Getjsons = await Port.json();
+    let AirPJsons = new Set();
+    for (let Getjson of Getjsons) {
+        AirPJsons.add(Getjson)
+    }
+    AirPJsons = [...AirPJsons];
+    let ComPareAirPJsons = [...AirPJsons];
+    let ComPares = '';
+    for (let AirPJson of AirPJsons) {
+        // 공항 표시 점들
+        let AirPortDots = new kakao.maps.CustomOverlay({
+            content: '<span class="material-symbols-outlined">fiber_manual_record</span>',
+            position: new kakao.maps.LatLng(AirPJson.XYmap.x, AirPJson.XYmap.y),
+            // title: `${Position.title}공항`,
+            zIndex: 2
+        });
+        AirPortDots.setMap(AirMap);
+        APDotCounts.push(AirPortDots)
+        if (ComPares == '') {
+            for (let ComPareAirPJson of ComPareAirPJsons) {
+                if (AirPJson !== ComPareAirPJson) {            
+                    let MapLine = new kakao.maps.Polyline({
+                        map: AirMap,
+                        startArrow: true,
+                        endArrow: true,
+                        path: [
+                            new kakao.maps.LatLng(AirPJson.XYmap.x, AirPJson.XYmap.y),
+                            new kakao.maps.LatLng(ComPareAirPJson.XYmap.x, ComPareAirPJson.XYmap.y),],
+                            strokeWeight: 1,
+                        strokeColor: '#ABABAB',
+                        strokeOpacity: 0.7,
+                        strokeStyle: 'solid'
+                    });
+                    MapLine.setMap(AirMap)
+                }
+                ComPares = ComPareAirPJsons.filter(ComPareAirPJson => ComPareAirPJson !== AirPJson);
+            }
+        } else {
+            for (let ComPare of ComPares) {
+                if (AirPJson !== ComPare) {
+                    let MapLine = new kakao.maps.Polyline({
+                        map: AirMap,
+                        startArrow: true,
+                        endArrow: true,
+                        path: [
+                            new kakao.maps.LatLng(AirPJson.XYmap.x, AirPJson.XYmap.y),
+                            new kakao.maps.LatLng(ComPare.XYmap.x, ComPare.XYmap.y),],
+                            strokeWeight: 1,
+                            strokeColor: '#ABABAB',
+                            strokeOpacity: 0.7,
+                            strokeStyle: 'solid'
+                        });
+                    MapLine.setMap(AirMap)
+                }
+                ComPares = ComPares.filter(ComPareAirPJson => ComPareAirPJson !== AirPJson);
+            }
+        }
+    }
+}

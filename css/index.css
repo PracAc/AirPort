@@ -1,3 +1,19 @@
+.material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 48;
+    font-size: 17px;
+    color: #ABABAB;
+}
+.Mark {
+    color: #000000;
+    opacity: 0.8;
+}
+
+
+/* date input 설정 */
 input[type="date"]::-webkit-calendar-picker-indicator,
 input[type="date"]::-webkit-inner-spin-button {
     display: none;
@@ -12,22 +28,27 @@ input[type="date"]::-webkit-calendar-picker-indicator {
    height: 25px; */
    border-width: thin;
 }
+
 .form-group div{
     padding: 0;
 }
 label{background-color: rgb(146, 231, 231);}
 
-/* #AirTable::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+/* table스크롤바 */
+.table-responsive::-webkit-scrollbar {
+    height: 12px;
 }
-#AirTable::-webkit-scrollbar-track {
-    background-color: #fff;
-}
-#AirTable::-webkit-scrollbar-thumb {
+.table-responsive::-webkit-scrollbar-track {
     background-color: #cce6ff;
-} */
+}
+.table-responsive::-webkit-scrollbar-thumb {
+    background-color: #85b7e6;
+}
 
+/* 테이블 */
+#AirTable{
+    display: none;
+}
 #AirTable thead tr th{
     background-color: rgb(146, 231, 231);
     color: #008686;
@@ -36,9 +57,40 @@ label{background-color: rgb(146, 231, 231);}
 #AirTable tbody tr td{
     white-space: nowrap;
 }
-.AirMarker{
+#MoreBtn{display: none;}
+#LoadingBtn{display: none;}
+
+/* 모달 */
+.modal-content div{
+    white-space: nowrap;
+}
+.AirDI{
  font-weight: bold;
 }
-.AirMarker:hover{
+.AirDI:hover{
     cursor: pointer;
 }
+#SearchForm {
+    padding: 5px;
+}
+.AirCardContainer > div{
+    padding: 5px;
+}
+.M-Title{
+    font-size: small;
+    vertical-align: middle;
+}
+
+.lineBoard {
+    position: relative;
+    left: 5px;
+    bottom: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    border-bottom: 2px solid #ddd;
+    float: left;
+    font-size: 12px;
+    padding: 5px;
+    background: #fff;
+}
+
