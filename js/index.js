@@ -522,7 +522,6 @@ const getInfo = async function () {
 
 window.addEventListener('load', async function () {
     try {
-        AirMap.relayout();
         await SetDomAirP();
         await SetDomAirL();
         let GetDirection = await getInfo();
@@ -530,6 +529,7 @@ window.addEventListener('load', async function () {
         SetDotsOP(GetDirection);
         PanTo(GetDirection);
         MakeLine(GetDirection);
+        AirMap.relayout();
 
         // 초기 설정시 반응형으로 적용되는 css설정
         if (window.matchMedia("(min-width: 768px)").matches) {
