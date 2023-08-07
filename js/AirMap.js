@@ -121,7 +121,7 @@ const MapEvents = async function () {
 
 // 처음로딩시 뿌려줄 공항 연결선
 const SetLine = async function() {
-    let Port = await fetch('/js/airport.json');
+    let Port = await fetch('/AirPort/js/airport.json');
     let Getjsons = await Port.json();
     let AirPJsons = new Set();
     for (let Getjson of Getjsons) {
